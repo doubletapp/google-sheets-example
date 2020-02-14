@@ -44,21 +44,21 @@ def main():
         print('No data found.')
         return
 
-    read_status = []
+    read_status_values = []
     for i, row in enumerate(values):
-        if len(row) == 5:
-            read_status.append([])
+        if len(row) == 5 and row[4] == STATUS_VALUE:
+            read_status_values.append([])
             continue
 
         print(f'{row[0]}, {row[1]}, {row[2]}, {row[3]}')
-        read_status.append([STATUS_VALUE])
+        read_status_values.append([STATUS_VALUE])
 
     # Write values
     result = service.spreadsheets().values().update(
         spreadsheetId=SPREADSHEET_ID,
         range=WRITE_RANGE_NAME,
-        valueInputOption='RAW',
-        body=dict(values=read_status),
+        valueInputOption=VALUE_INPUT_OPTION,
+        body=dict(values=read_status_values),
     ).execute()
 
 if __name__ == '__main__':
